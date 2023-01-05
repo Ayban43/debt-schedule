@@ -84,9 +84,9 @@ const Debt = () => {
                                         <td>{info.interest}%</td>
                                         <td>{info.interest_frequency}</td>
                                         <td>{info.maturity_date}</td>
-                                        <td>{info.budgeted_payment}</td>
+                                        <td>{numberFormat(info.budgeted_payment)}</td>
                                         <td>{info.payment_frequency}</td>
-                                        <td>{info.minimum_payment}</td>
+                                        <td>{numberFormat(info.minimum_payment)}</td>
                                     </tr>
                                 )
                             })
