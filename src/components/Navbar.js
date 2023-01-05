@@ -19,7 +19,7 @@ const Navbar = () => {
             <IconContext.Provider value={{ color: "#red" }}>
                 <nav className="navbar">
                     <div className="navbar-container container">
-                        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+                        <Link to="/debt-schedule" className="navbar-logo" onClick={closeMobileMenu}>
                             <img src={logo} alt="Logo" />
                             Debt Schedule
                         </Link>
@@ -29,7 +29,7 @@ const Navbar = () => {
                         <ul className={click ? "nav-menu active" : "nav-menu"}>
                             <li className="nav-item">
                                 <NavLink
-                                    to="/" className={({ isActive }) =>
+                                    to="/debt-schedule" className={({ isActive }) =>
                                         "nav-links" + (isActive ? " activated" : "")
                                     }
                                     onClick={closeMobileMenu}
@@ -39,7 +39,7 @@ const Navbar = () => {
                             </li>
                             <li className="nav-item">
                                 <NavLink
-                                    to="/debt" className={({ isActive }) =>
+                                    to="debt-schedule/debt" className={({ isActive }) =>
                                         "nav-links" + (isActive ? " activated" : "")
                                     }
                                     onClick={closeMobileMenu}
