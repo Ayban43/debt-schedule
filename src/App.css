@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+.dashboard,
+.debt {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background-color: rgb(228, 230, 228);
+  color: #07143F;
+
+}
+
+.page-icon {
+  margin-left: 1rem;
+  font-size: 100px;
+}
+
+#error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 960px) {
+  .dashboard,
+  .debt {
+    font-size: 2.5rem;
+  }
+
+  .page-icon {
+    margin-left: 1rem;
+    font-size: 80px;
+  }
+}
+
+/* button */
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.add_debt_button{
+  display:block;
+}
+
+button:hover {
+  background-color: #54be57; /* Green */
+}
+
+ .addDebtButtonWrapper {
+  display:flex;
+  justify-content: end;
+}
+
+/* forms */
+form {
+  background: #fff;
+  padding: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+input:focus{
+  outline: none;
+  box-shadow: 0 .5px .5px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(71, 157, 238, 0.6);
+}
+
+
+form #description,#beginning_balance,#interest ,#budgeted_payment, #maturity_date, #minimum_payment{
+  display: block;
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  border: 1px solid rgb(219, 219, 219);
+  margin: 10px 0 20px 0;
+  border-radius: 5px;
+}
+
+
+
+form button {
+  background: #4CAF50;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px;
+  font-family: "Open Sans", sans-serif;
+  cursor: pointer;
+  margin:20px 0 0 0;
+}
+
+.debt_body{
+  margin-top:30px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+/* drop-down */
+.custom-select {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #555555;
+  font-size: 14px;
+  height: 40px;
+  padding: 8px;
+  width: 100%;
+  margin-bottom:20px;
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 .5px .5px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(71, 157, 238, 0.6);
+}
+
+.custom-select option {
+  background-color: #ffffff;
+  color: #555555;
+}
+
+
