@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Ayban43/debt-schedule/static/css/main.ff182348.css",
+    "main.js": "/Ayban43/debt-schedule/static/js/main.b1c07962.js",
+    "index.html": "/Ayban43/debt-schedule/index.html",
+    "main.ff182348.css.map": "/Ayban43/debt-schedule/static/css/main.ff182348.css.map",
+    "main.b1c07962.js.map": "/Ayban43/debt-schedule/static/js/main.b1c07962.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ff182348.css",
+    "static/js/main.b1c07962.js"
+  ]
+}
