@@ -30,15 +30,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "/debt-schedule",
         element: <Dashboard />,
       },
       {
-        path: "debt",
+        path: "debt-schedule/debt",
         element: <Debt />,
       },
       {
-        path: "create-debt",
+        path: "debt-schedule/create-debt",
         element: <CreateDebt />,
       },
     ]
