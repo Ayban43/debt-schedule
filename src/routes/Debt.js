@@ -16,25 +16,6 @@ const Debt = () => {
             currency: 'USD'
         }).format(value);
 
-    // useEffect(() => {
-    //     getDebts();
-    // }, [])
-
-    // async function getDebts() {
-    //     try {
-    //         const { data, error } = await supabase
-    //             .from("debts")
-    //             .select("*")
-    //         if (error) throw error;
-    //         if (data != null) {
-    //             setDebts(data);
-    //             //console.log(data)
-    //         }
-    //     } catch (error) {
-    //         alert(error.message);
-    //     }
-    // }
-
     useEffect(() =>{
         const fetchDebts = async () => {
             const {data,error} = await supabase
@@ -91,11 +72,14 @@ const Debt = () => {
                                         <td>{numberFormat(info.budgeted_payment)}</td>
                                         <td>{info.payment_frequency}</td>
                                         <td>{numberFormat(info.minimum_payment)}</td>
+<<<<<<< HEAD
                                         <td>
                                             <Link to={"/debt-schedule/" + info.id}>
                                                 <VscTable />
                                             </Link>
                                         </td>
+=======
+>>>>>>> 34cbea1e765025d9d1cbb7a64fc643800247879a
                                     </tr>
                                 )
                             })
