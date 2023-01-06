@@ -1,7 +1,7 @@
 {
   "name": "debt-schedule",
   "version": "0.1.0",
-  "homepage": "https://github.com/debt-schedule",
+  "homepage": "https://Ayban43.github.io/debt-schedule",
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.2.3",

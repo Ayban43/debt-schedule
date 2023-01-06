@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./routes/Dashboard";
 import Debt from "./routes/Debt";
 import CreateDebt from "./routes/CreateDebt";
+import ViewDebt from "./routes/ViewDebt";
 
 import ErrorPage from "./routes/ErrorPage";
 import "./App.css";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "debt-schedule/create-debt",
         element: <CreateDebt />,
+      },
+      {
+        path: "debt-schedule/:id",
+        element: <ViewDebt />,
       },
     ]
   }

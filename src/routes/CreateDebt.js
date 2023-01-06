@@ -42,7 +42,7 @@ const CreateDebt = () => {
     if (status == 201) {
       console.log(data)
       setFormError(null)
-      navigate('/debt')
+      navigate('/debt-schedule/debt')
     } else {
       console.log(error)
       console.log(budgeted_payment)

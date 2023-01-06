@@ -1,11 +1,14 @@
 import supabase from '../config/supabaseClient'
 import { useEffect, useState } from 'react'
-import '../components/Table.css';
-import ButtonLink from '../components/ButtonLink';
+import '../components/Table.css'
+import ButtonLink from '../components/ButtonLink'
+import { Link } from 'react-router-dom'
+import { VscTable } from "react-icons/vsc";
 
 
 const Debt = () => {
     const [debts, setDebts] = useState([]);
+    const [fetchError,setFetchError] = useState(null)
 
     const numberFormat = (value) =>
         new Intl.NumberFormat('en-US', {
@@ -13,50 +16,50 @@ const Debt = () => {
             currency: 'USD'
         }).format(value);
 
-    useEffect(() => {
-        getDebts();
+    // useEffect(() => {
+    //     getDebts();
+    // }, [])
+
+    // async function getDebts() {
+    //     try {
+    //         const { data, error } = await supabase
+    //             .from("debts")
+    //             .select("*")
+    //         if (error) throw error;
+    //         if (data != null) {
+    //             setDebts(data);
+    //             //console.log(data)
+    //         }
+    //     } catch (error) {
+    //         alert(error.message);
+    //     }
+    // }
+
+    useEffect(() =>{
+        const fetchDebts = async () => {
+            const {data,error} = await supabase
+            .from('debts')
+            .select()
+
+            if(error){
+                setFetchError('Could not fetch data')
+                setDebts(null)
+                console.log(error)
+            }
+            if (data) {
+                setDebts(data);
+                setFetchError(null)
+            }
+        }
+        fetchDebts()
     }, [])
 
-    async function getDebts() {
-        try {
-            const { data, error } = await supabase
-                .from("debts")
-                .select("*")
-            if (error) throw error;
-            if (data != null) {
-                setDebts(data); // [product1,product2,product3]
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-
-    // <table border={1} width="30%" cellPadding={10}>
-    //     <tbody>
-    //         <tr>
-    //             <td>ID</td>
-    //             <td>DESC</td>
-    //         </tr>
-
-    //         {debts.map{
-    //             (info, ind) => {
-    //                 return (
-    //                     <tr key={ind}>
-    //                         <td>haha{info.id}</td>
-    //                         <td>{info.description}</td>
-    //                     </tr>
-    //                 )
-    //             }
-    //         }
-    //         }
-    //     </tbody>
-    // </table>
     return (
         <div className="debt_body">
 
             <ButtonLink />
             <div className="tableWrapper">
-                <table border={1} cellPadding={7}>
+                <table className="debts" border={1} cellPadding={7}>
                     <tbody>
                         <tr>
                             <th>Counter</th>
@@ -69,6 +72,7 @@ const Debt = () => {
                             <th>Budgeted Monthly Payment</th>
                             <th>Payment Frequency</th>
                             <th>Min. Monthly Payment</th>
+                            <th>View</th>
                         </tr>
                         {debts.length < 1 ?
                             <tr>
@@ -87,6 +91,11 @@ const Debt = () => {
                                         <td>{numberFormat(info.budgeted_payment)}</td>
                                         <td>{info.payment_frequency}</td>
                                         <td>{numberFormat(info.minimum_payment)}</td>
+                                        <td>
+                                            <Link to={"/debt-schedule/" + info.id}>
+                                                <VscTable />
+                                            </Link>
+                                        </td>
                                     </tr>
                                 )
                             })
