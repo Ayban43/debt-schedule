@@ -72,18 +72,16 @@ const Debt = () => {
                                         <td>{numberFormat(info.budgeted_payment)}</td>
                                         <td>{info.payment_frequency}</td>
                                         <td>{numberFormat(info.minimum_payment)}</td>
-<<<<<<< HEAD
                                         <td>
                                             <Link to={"/debt-schedule/" + info.id}>
                                                 <VscTable />
                                             </Link>
                                         </td>
-=======
->>>>>>> 34cbea1e765025d9d1cbb7a64fc643800247879a
                                     </tr>
                                 )
                             })
                         }
+
 
                     </tbody>
                 </table>
