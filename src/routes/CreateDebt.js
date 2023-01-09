@@ -113,16 +113,6 @@ const CreateDebt = () => {
           <label htmlFor="Monthly">Monthly</label>
 
           <RadioButton
-            value="Daily"
-            label="Daily"
-            id="Daily"
-            name="interest_radio"
-            checked={interest_frequency === 'Daily'}
-            onChange={(e) => setInterestFrequency(e.target.value)}
-          />
-          <label htmlFor="Daily">Daily</label>
-
-          <RadioButton
             value="Quarterly"
             label="Quarterly"
             id="Quarterly"
