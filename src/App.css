@@ -8,12 +8,12 @@
 }
 
 .dashboard,
-.debt {
+.debt,
+.viewDebt {
   display: flex;
-  height: 90vh;
+  padding-top: 10px;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
   background-color: rgb(228, 230, 228);
   color: #07143F;
 
@@ -137,6 +137,10 @@ form button {
 .custom-select option {
   background-color: #ffffff;
   color: #555555;
+}
+
+.description{
+
 }
 
 

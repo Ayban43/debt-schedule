@@ -8,7 +8,7 @@
 
 #viewDebtTable{
     border-collapse: collapse;
-    width: 60%;
+    width: 100%;
     margin: 2rem auto;
     font-size: 14px;
     text-align: left;
