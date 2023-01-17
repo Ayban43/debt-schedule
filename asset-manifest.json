@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/debt-schedule/static/css/main.bb354369.css",
-    "main.js": "/debt-schedule/static/js/main.d257bfba.js",
+    "main.css": "/debt-schedule/static/css/main.ef22ebca.css",
+    "main.js": "/debt-schedule/static/js/main.80533ecb.js",
     "index.html": "/debt-schedule/index.html",
-    "main.bb354369.css.map": "/debt-schedule/static/css/main.bb354369.css.map",
-    "main.d257bfba.js.map": "/debt-schedule/static/js/main.d257bfba.js.map"
+    "main.ef22ebca.css.map": "/debt-schedule/static/css/main.ef22ebca.css.map",
+    "main.80533ecb.js.map": "/debt-schedule/static/js/main.80533ecb.js.map"
   },
   "entrypoints": [
-    "static/css/main.bb354369.css",
-    "static/js/main.d257bfba.js"
+    "static/css/main.ef22ebca.css",
+    "static/js/main.80533ecb.js"
   ]
 }
