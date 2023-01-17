@@ -73,9 +73,6 @@ const CreateDebt = () => {
           <option value="Other Loan">Other Loan</option>
         </select>
 
-
-
-
         <label htmlFor="beginning_balance">Beginning Balance:</label>
         <CurrencyInput
           id="beginning_balance"
@@ -161,7 +158,6 @@ const CreateDebt = () => {
           <RadioButton
             value="Monthly"
             label="Monthly"
-            required
             name = "payment_frequency"
             id="payment_monthly"
             checked={payment_frequency === 'Monthly'}

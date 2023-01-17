@@ -21,6 +21,7 @@ const Debt = () => {
             const {data,error} = await supabase
             .from('debts')
             .select()
+            .order('id', { ascending: false })
 
             if(error){
                 setFetchError('Could not fetch data')
