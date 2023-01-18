@@ -1,5 +1,7 @@
 // import React from 'react'
 import supabase from '../config/supabaseClient'
+import FetchDebt from '../Query/FetchDebt'
+import PaymentPerMonth from '../components/PaymentPerMonth'
 
 const Dashboard = () => {
     console.log(supabase)
@@ -7,7 +9,8 @@ const Dashboard = () => {
   return (
     
     <div className = "dashboard">
-        <h1>Dashboard</h1>
+        <FetchDebt />
+        {/* <PaymentPerMonth /> */}
     </div>
   )
 }
