@@ -4,8 +4,9 @@ import { useState } from "react";
 import supabase from "../config/supabaseClient";
 import React from 'react'
 import PaymentPerMonth from "../components/PaymentPerMonth";
+import SelectDebt from "../components/SelectDebt";
 
-const FetchDebt = (props) => {
+const FetchDebt = () => {
   const [datas, setDatas] = useState('');
   const navigate = useNavigate();
   const [createdAt, setCreatedAt] = useState("");
@@ -18,13 +19,17 @@ const FetchDebt = (props) => {
   const [description, setDescription] = useState("");
 
   const [amortizationData, setAmortizationData] = useState([]);
+  const [selected, setSelected] = useState([]);
 
+
+  const selectedId = selected.map(item => item.value)
 
   useEffect(() => {
     const fetchDebt = async () => {
       const { data, error } = await supabase
         .from("debts")
         .select()
+         .in('id', selectedId)
       //  .not('maturity_date', 'is', null)
       //   .is('maturity_date',null)
 
@@ -154,12 +159,12 @@ const FetchDebt = (props) => {
                 var principal = payment - interest;
                 remainingBalance -= principal;
                 if (paymentFrequency === "Monthly") {
-                  if(i === 0){
+                  if (i === 0) {
                     var currentBalance = loanAmount
-                    var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
-                  }else{
+                    var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
+                  } else {
                     var currentBalance = schedule[i - 1].remainingBalance
-                    var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+                    var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
                   }
                   schedule.push({
                     [periodLabel]: i + 1,
@@ -172,7 +177,7 @@ const FetchDebt = (props) => {
                     paymentDate: paymentDate,
                   });
                 } else {
-                  
+
                   if (i === 0) {
                     var currentBalance = loanAmount
                     var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
@@ -209,7 +214,6 @@ const FetchDebt = (props) => {
           }
           /*  Budgeted Payment*/
           else {
-            console.log(debt.budgeted_payment)
             function amortizationSchedule(
               loanAmount,
               annualInterestRate,
@@ -418,19 +422,25 @@ const FetchDebt = (props) => {
     }, acc);
   }, {}));
 
-  console.log(sumByPaymentDate)
   const finalArray = sumByPaymentDate.map(([date, value]) => {
     return { ...value, date };
   });
 
   finalArray.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  
+
 
   // console.log(finalArray)
 
 
-  return <PaymentPerMonth object={finalArray} />;
+  return (
+    <div>
+      {/* <SelectDebt selected={selected} setSelected={setSelected} /> */}
+      {/* <PaymentPerMonth object={finalArray} /> */}
+    </div>
+
+  )
+
 
   // return (
   //     <ChildComponent data={data} updateData={setData} />
