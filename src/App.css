@@ -139,15 +139,10 @@ form button {
   color: #555555;
 }
 
-.description{
-
-}
-
-
 /* CHARTS */
 
 .recharts-wrapper{
-  margin-top:20px
+  margin: top 20px;
 }
 
 

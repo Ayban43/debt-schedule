@@ -59,8 +59,22 @@ const AmortizationSchedule = () => {
     return maturity_months;
   }
 
-  function getFirstDayOfNextMonth(adden) {
-    const date = new Date(createdAt);
+  // function getFirstDayOfNextMonth(adden) {
+  //   const date = new Date(createdAt);
+  //   var d = new Date(date.getFullYear(), date.getMonth() + adden, 1);
+
+  //   var datestring =
+  //     ("0" + (d.getMonth() + 1)).slice(-2) +
+  //     "/" +
+  //     ("0" + d.getDate()).slice(-2) +
+  //     "/" +
+  //     d.getFullYear();
+
+  //   return datestring;
+  // }
+
+    function getFirstDayOfNextMonth(from, adden) {
+    const date = new Date(from);
     var d = new Date(date.getFullYear(), date.getMonth() + adden, 1);
 
     var datestring =
@@ -95,7 +109,8 @@ const AmortizationSchedule = () => {
       annualInterestRate,
       numPayments,
       interestFrequency,
-      paymentFrequency
+      paymentFrequency,
+      createdAt
     ) {
       var interestRate;
       var payment;
@@ -104,6 +119,7 @@ const AmortizationSchedule = () => {
       var schedule = [];
       var period;
       var periodLabel;
+      var startDate = createdAt;
 
       // calculate interest rate based on frequency
       if (interestFrequency === "Annually" && paymentFrequency === "Monthly") {
@@ -197,24 +213,45 @@ const AmortizationSchedule = () => {
         var principal = payment - interest;
         remainingBalance -= principal;
         
-        if(i === 0){
-          var currentBalance = loanAmount
-          var paymentDate = getFirstDayOfNextMonth(i + 1)
-        }else{
-          var currentBalance = schedule[i - 1].remainingBalance
-          var paymentDate = getFirstDayOfPlusThreeMonth(schedule[i - 1].paymentDate)
+        if (paymentFrequency === "Monthly") {
+          
+          if(i === 0){
+            var currentBalance = loanAmount
+            var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+          }else{
+            var currentBalance = schedule[i - 1].remainingBalance
+            var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+          }
+          schedule.push({
+            [periodLabel]: i + 1,
+            interest: interest,
+            cumulativeInterest: cumulativeInterest,
+            principal: principal,
+            remainingBalance: remainingBalance,
+            payment: payment,
+            currentBalance: currentBalance,
+            paymentDate: paymentDate,
+          });
+        } else {
+          
+          if (i === 0) {
+            var currentBalance = loanAmount
+            var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
+          } else {
+            var currentBalance = schedule[i - 1].remainingBalance
+            var paymentDate = getFirstDayOfPlusThreeMonth(schedule[i - 1].paymentDate)
+          }
+          schedule.push({
+            [periodLabel]: i + 1,
+            interest: interest,
+            cumulativeInterest: cumulativeInterest,
+            principal: principal,
+            remainingBalance: remainingBalance,
+            payment: payment,
+            currentBalance: currentBalance,
+            paymentDate: paymentDate,
+          });
         }
-
-        schedule.push({
-          [periodLabel]: i + 1,
-          interest: interest,
-          cumulativeInterest: cumulativeInterest,
-          principal: principal,
-          remainingBalance: remainingBalance,
-          payment: payment,
-          currentBalance: currentBalance,
-          paymentDate: paymentDate,
-        });
       }
       return schedule;
     }
@@ -224,7 +261,8 @@ const AmortizationSchedule = () => {
       interest / 100,
       getNoOfMonths(),
       interestFrequency,
-      paymentFrequency
+      paymentFrequency,
+      createdAt
     );
 
     //console.log(schedule)
@@ -279,7 +317,8 @@ const AmortizationSchedule = () => {
       annualInterestRate,
       monthlyPayment,
       interestFrequency,
-      paymentFrequency
+      paymentFrequency,
+      createdAt
     ) {
       var interestRate;
       var payment = monthlyPayment;
@@ -288,6 +327,7 @@ const AmortizationSchedule = () => {
       var schedule = [];
       var period;
       var periodLabel;
+      var startDate = createdAt
 
       if (interestFrequency === "Monthly" && paymentFrequency === "Monthly") {
         interestRate = annualInterestRate / 12;
@@ -333,7 +373,7 @@ const AmortizationSchedule = () => {
           payment = principal + interest;
           cumulativeInterest = schedule[i - 1].cumulativeInterest + interest;
           remainingBalance = 0;
-
+          
           schedule.push({
             [periodLabel]: i + 1,
             interest: interest,
@@ -342,7 +382,7 @@ const AmortizationSchedule = () => {
             remainingBalance: remainingBalance,
             payment: payment,
             currentBalance: currentBalance,
-            paymentDate: getFirstDayOfNextMonth(i + 1),
+            paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
           });
 
           latestEndingBalance = remainingBalance;
@@ -355,7 +395,7 @@ const AmortizationSchedule = () => {
             remainingBalance: remainingBalance,
             payment: payment,
             currentBalance: currentBalance,
-            paymentDate: getFirstDayOfNextMonth(i + 1),
+            paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
           });
 
           latestEndingBalance = remainingBalance;
@@ -369,7 +409,8 @@ const AmortizationSchedule = () => {
       interest / 100,
       monthlyPayment,
       interestFrequency,
-      paymentFrequency
+      paymentFrequency,
+      createdAt
     );
 
     return (

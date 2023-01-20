@@ -25,8 +25,8 @@ const FetchDebt = (props) => {
       const { data, error } = await supabase
         .from("debts")
         .select()
-        // .not('maturity_date', 'is', null)
-        // .is('maturity_date',null)
+      //  .not('maturity_date', 'is', null)
+      //   .is('maturity_date',null)
 
       if (error) {
         navigate("/debt-schedule/", { replace: true });
@@ -61,7 +61,7 @@ const FetchDebt = (props) => {
               var period;
               var periodLabel;
               var startDate = createdAt;
-        
+
               // calculate interest rate based on frequency
               if (interestFrequency === "Annually" && paymentFrequency === "Monthly") {
                 let q = 12;
@@ -69,7 +69,7 @@ const FetchDebt = (props) => {
                 let m = 1;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = qi / 12;
                 payment =
                   loanAmount *
@@ -85,7 +85,7 @@ const FetchDebt = (props) => {
                 let m = 1;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = qi / 4;
                 payment =
                   loanAmount *
@@ -101,7 +101,7 @@ const FetchDebt = (props) => {
                 let m = 4;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = qi / 12;
                 payment =
                   loanAmount *
@@ -137,7 +137,7 @@ const FetchDebt = (props) => {
                 let m = 12;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = (qi / 12) * 3;
                 payment =
                   loanAmount *
@@ -153,27 +153,48 @@ const FetchDebt = (props) => {
                 cumulativeInterest += interest;
                 var principal = payment - interest;
                 remainingBalance -= principal;
-                if(i === 0){
-                  var currentBalance = loanAmount
-                  var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
-                }else{
-                  var currentBalance = schedule[i - 1].remainingBalance
-                  var paymentDate = getFirstDayOfPlusThreeMonth(schedule[i - 1].paymentDate)
+                if (paymentFrequency === "Monthly") {
+                  if(i === 0){
+                    var currentBalance = loanAmount
+                    var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+                  }else{
+                    var currentBalance = schedule[i - 1].remainingBalance
+                    var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+                  }
+                  schedule.push({
+                    [periodLabel]: i + 1,
+                    interest: interest,
+                    cumulativeInterest: cumulativeInterest,
+                    principal: principal,
+                    remainingBalance: remainingBalance,
+                    payment: payment,
+                    currentBalance: currentBalance,
+                    paymentDate: paymentDate,
+                  });
+                } else {
+                  
+                  if (i === 0) {
+                    var currentBalance = loanAmount
+                    var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
+                  } else {
+                    var currentBalance = schedule[i - 1].remainingBalance
+                    var paymentDate = getFirstDayOfPlusThreeMonth(schedule[i - 1].paymentDate)
+                  }
+                  schedule.push({
+                    [periodLabel]: i + 1,
+                    interest: interest,
+                    cumulativeInterest: cumulativeInterest,
+                    principal: principal,
+                    remainingBalance: remainingBalance,
+                    payment: payment,
+                    currentBalance: currentBalance,
+                    paymentDate: paymentDate,
+                  });
                 }
-                schedule.push({
-                  [periodLabel]: i + 1,
-                  interest: interest,
-                  cumulativeInterest: cumulativeInterest,
-                  principal: principal,
-                  remainingBalance: remainingBalance,
-                  payment: payment,
-                  currentBalance: currentBalance,
-                  paymentDate: paymentDate,
-                });
               }
               return schedule;
             }
-        
+
             let schedule = amortizationSchedule(
               beginningBalance,
               interest / 100,
@@ -187,7 +208,7 @@ const FetchDebt = (props) => {
 
           }
           /*  Budgeted Payment*/
-          else{
+          else {
             console.log(debt.budgeted_payment)
             function amortizationSchedule(
               loanAmount,
@@ -205,7 +226,7 @@ const FetchDebt = (props) => {
               var period;
               var periodLabel;
               var startDate = createdAt;
-        
+
               if (interestFrequency === "Monthly" && paymentFrequency === "Monthly") {
                 interestRate = annualInterestRate / 12;
                 periodLabel = "month";
@@ -218,7 +239,7 @@ const FetchDebt = (props) => {
                 let m = 4;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = qi / 12;
                 periodLabel = "month";
               } else if (
@@ -230,11 +251,11 @@ const FetchDebt = (props) => {
                 let m = 1;
                 let rdm = r / m;
                 let qi = q * (Math.pow(1 + rdm, m / q) - 1);
-        
+
                 interestRate = qi / 12;
                 periodLabel = "month";
               }
-        
+
               let latestEndingBalance = 1;
               for (var i = 0; latestEndingBalance > 0; i++) {
                 var interest = remainingBalance * interestRate;
@@ -244,43 +265,83 @@ const FetchDebt = (props) => {
                 var currentBalance =
                   i === 0 ? loanAmount : schedule[i - 1].remainingBalance;
                 var paymentDate;
-                if (currentBalance < payment) {
-                  principal = currentBalance;
-                  interest = currentBalance * interestRate;
-                  payment = principal + interest;
-                  cumulativeInterest = schedule[i - 1].cumulativeInterest + interest;
-                  remainingBalance = 0;
-        
-                  schedule.push({
-                    [periodLabel]: i + 1,
-                    interest: interest,
-                    cumulativeInterest: cumulativeInterest,
-                    principal: principal,
-                    remainingBalance: remainingBalance,
-                    payment: payment,
-                    currentBalance: currentBalance,
-                    paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
-                  });
-        
-                  latestEndingBalance = remainingBalance;
+
+                if (paymentFrequency === "Monthly") {
+                  if (currentBalance < payment) {
+                    principal = currentBalance;
+                    interest = currentBalance * interestRate;
+                    payment = principal + interest;
+                    cumulativeInterest = schedule[i - 1].cumulativeInterest + interest;
+                    remainingBalance = 0;
+
+                    schedule.push({
+                      [periodLabel]: i + 1,
+                      interest: interest,
+                      cumulativeInterest: cumulativeInterest,
+                      principal: principal,
+                      remainingBalance: remainingBalance,
+                      payment: payment,
+                      currentBalance: currentBalance,
+                      paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
+                    });
+
+                    latestEndingBalance = remainingBalance;
+
+                  } else {
+                    schedule.push({
+                      [periodLabel]: i + 1,
+                      interest: interest,
+                      cumulativeInterest: cumulativeInterest,
+                      principal: principal,
+                      remainingBalance: remainingBalance,
+                      payment: payment,
+                      currentBalance: currentBalance,
+                      paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
+                    });
+
+                    latestEndingBalance = remainingBalance;
+                  }
                 } else {
-                  schedule.push({
-                    [periodLabel]: i + 1,
-                    interest: interest,
-                    cumulativeInterest: cumulativeInterest,
-                    principal: principal,
-                    remainingBalance: remainingBalance,
-                    payment: payment,
-                    currentBalance: currentBalance,
-                    paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
-                  });
-        
-                  latestEndingBalance = remainingBalance;
+                  if (currentBalance < payment) {
+                    principal = currentBalance;
+                    interest = currentBalance * interestRate;
+                    payment = principal + interest;
+                    cumulativeInterest = schedule[i - 1].cumulativeInterest + interest;
+                    remainingBalance = 0;
+
+                    schedule.push({
+                      [periodLabel]: i + 1,
+                      interest: interest,
+                      cumulativeInterest: cumulativeInterest,
+                      principal: principal,
+                      remainingBalance: remainingBalance,
+                      payment: payment,
+                      currentBalance: currentBalance,
+                      paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
+                    });
+
+                    latestEndingBalance = remainingBalance;
+
+                  } else {
+                    schedule.push({
+                      [periodLabel]: i + 1,
+                      interest: interest,
+                      cumulativeInterest: cumulativeInterest,
+                      principal: principal,
+                      remainingBalance: remainingBalance,
+                      payment: payment,
+                      currentBalance: currentBalance,
+                      paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
+                    });
+
+                    latestEndingBalance = remainingBalance;
+                  }
                 }
+
               }
               return schedule;
             }
-        
+
             let schedule = amortizationSchedule(
               beginningBalance,
               interest / 100,
@@ -293,6 +354,7 @@ const FetchDebt = (props) => {
 
           }
         });
+
         setAmortizationData(amortData);
       }
     };
@@ -355,9 +417,15 @@ const FetchDebt = (props) => {
       return innerAcc;
     }, acc);
   }, {}));
+
+  console.log(sumByPaymentDate)
   const finalArray = sumByPaymentDate.map(([date, value]) => {
     return { ...value, date };
   });
+
+  finalArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  
 
   // console.log(finalArray)
 
