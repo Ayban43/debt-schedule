@@ -1,18 +1,21 @@
 import supabase from '../config/supabaseClient'
-import { useEffect, useState, useContext} from 'react'
+import { useEffect, useState, useContext } from 'react'
 import '../components/Table.css'
 import ButtonLink from '../components/ButtonLink'
 import { Link } from 'react-router-dom'
 import { VscTable } from "react-icons/vsc";
 import LoadingSpinner from '../components/LoadingSpinner'
 import { SupabaseContext } from '..'
+import NotLoggedInPage from './NotLoggedInPage'
 
 
 const Debt = () => {
     const queryResults = useContext(SupabaseContext)
+    const profile_id = queryResults.id
+    console.log(profile_id)
 
     const [debts, setDebts] = useState([]);
-    const [fetchError,setFetchError] = useState(null)
+    const [fetchError, setFetchError] = useState(null)
     const [state, setState] = useState({ status: 'loading' });
 
     const numberFormat = (value) =>
@@ -21,15 +24,15 @@ const Debt = () => {
             currency: 'USD'
         }).format(value);
 
-    useEffect(() =>{
+    useEffect(() => {
         const fetchDebts = async () => {
-            const {data,error} = await supabase
-            .from('debts')
-            .select()
-            .eq('profile_id', queryResults.id)
-            .order('id', { ascending: false })
+            const { data, error } = await supabase
+                .from('debts')
+                .select()
+                .eq('profile_id', profile_id)
+                .order('id', { ascending: false })
             setState({ status: 'loaded' });
-            if(error){
+            if (error) {
                 setFetchError('Could not fetch data')
                 setDebts(null)
                 console.log(error)
@@ -44,7 +47,11 @@ const Debt = () => {
 
     if (state.status === 'loading') {
         return <LoadingSpinner />
-      }
+    }
+
+    if (profile_id === undefined || profile_id === null) {
+        return <NotLoggedInPage />
+    }
 
     return (
         <div className="debt_body">
@@ -100,6 +107,9 @@ const Debt = () => {
 
         </div>
     );
+
+
+
 
 
 }

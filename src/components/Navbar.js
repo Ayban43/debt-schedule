@@ -25,7 +25,8 @@ const Navbar = () => {
 
     async function signOutUser() {
         const { error } = await supabase.auth.signOut()
-        navigate("/debt-schedule/login")
+        navigate("/login")
+        window.location.reload()
     }
 
     // const queryResults = useContext(SupabaseContext);
@@ -37,7 +38,7 @@ const Navbar = () => {
                 // value.data.user
                 if (value.data?.user) {
 
-                    console.log(value.data.user)
+                    //console.log(value.data.user)
                     setEmail(value.data.user.email)
                     setUser(value.data.user)
                     setIsLoggedIn(true);
@@ -63,7 +64,7 @@ const Navbar = () => {
             <IconContext.Provider value={{ color: "#red" }}>
                 <nav className="navbar">
                     <div className="navbar-container container">
-                        <Link to="/debt-schedule/" className="navbar-logo" onClick={closeMobileMenu}>
+                        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
                             <img src={logo} alt="Logo" />
                             Debt Schedule
                         </Link>
@@ -73,7 +74,7 @@ const Navbar = () => {
                         <ul className={click ? "nav-menu active" : "nav-menu"}>
                             <li className="nav-item">
                                 <NavLink
-                                    to="/debt-schedule/" className={({ isActive }) =>
+                                    to="/" className={({ isActive }) =>
                                         "nav-links" + (isActive ? " activated" : "")
                                     }
                                     onClick={closeMobileMenu}
@@ -83,7 +84,7 @@ const Navbar = () => {
                             </li>
                             <li className="nav-item">
                                 <NavLink
-                                    to="debt-schedule/debt" className={({ isActive }) =>
+                                    to="/debt" className={({ isActive }) =>
                                         "nav-links" + (isActive ? " activated" : "")
                                     }
                                     onClick={closeMobileMenu}
@@ -124,7 +125,7 @@ const Navbar = () => {
                                 <>
                                     <li className="nav-item">
                                         <NavLink
-                                            to="debt-schedule/login" className={({ isActive }) =>
+                                            to="/login" className={({ isActive }) =>
                                                 "nav-links" + (isActive ? " activated" : "")
                                             }
                                             onClick={closeMobileMenu}

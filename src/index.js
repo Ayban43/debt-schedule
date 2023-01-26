@@ -74,23 +74,23 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/debt-schedule/",
+        path: "/",
         element: <Dashboard />,
       },
       {
-        path: "debt-schedule/debt",
+        path: "/debt",
         element: <Debt />,
       },
       {
-        path: "debt-schedule/create-debt",
+        path: "/create-debt",
         element: <CreateDebt />,
       },
       {
-        path: "debt-schedule/:id",
+        path: "/:id",
         element: <ViewDebt />,
       },
       {
-        path: "debt-schedule/login",
+        path: "/login",
         element: <LoginPage />,
       },
     ]
