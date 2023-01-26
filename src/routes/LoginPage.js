@@ -22,6 +22,7 @@ const navigate = useNavigate();
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa}}
         providers={["google"]}
+        redirectTo ={"https://ayban43.github.io/debt-schedule/"}
         />
     </div>
   )
