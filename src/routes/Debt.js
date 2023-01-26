@@ -1,14 +1,19 @@
 import supabase from '../config/supabaseClient'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext} from 'react'
 import '../components/Table.css'
 import ButtonLink from '../components/ButtonLink'
 import { Link } from 'react-router-dom'
 import { VscTable } from "react-icons/vsc";
+import LoadingSpinner from '../components/LoadingSpinner'
+import { SupabaseContext } from '..'
 
 
 const Debt = () => {
+    const queryResults = useContext(SupabaseContext)
+
     const [debts, setDebts] = useState([]);
     const [fetchError,setFetchError] = useState(null)
+    const [state, setState] = useState({ status: 'loading' });
 
     const numberFormat = (value) =>
         new Intl.NumberFormat('en-US', {
@@ -21,8 +26,9 @@ const Debt = () => {
             const {data,error} = await supabase
             .from('debts')
             .select()
+            .eq('profile_id', queryResults.id)
             .order('id', { ascending: false })
-
+            setState({ status: 'loaded' });
             if(error){
                 setFetchError('Could not fetch data')
                 setDebts(null)
@@ -35,6 +41,10 @@ const Debt = () => {
         }
         fetchDebts()
     }, [])
+
+    if (state.status === 'loading') {
+        return <LoadingSpinner />
+      }
 
     return (
         <div className="debt_body">

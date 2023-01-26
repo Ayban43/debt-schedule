@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState} from "react";
 import supabase from "../config/supabaseClient";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { SupabaseContext } from "..";
 
 const AmortizationSchedule = () => {
   const { id } = useParams();
@@ -15,6 +16,9 @@ const AmortizationSchedule = () => {
   const [paymentFrequency, setPaymentFrequency] = useState("");
   const [interestFrequency, setInterestFrequncy] = useState("");
   const [description, setDescription] = useState("");
+  const [state, setState] = useState({ status: 'loading' });
+
+
 
   useEffect(() => {
     const fetchDebt = async () => {
@@ -23,7 +27,7 @@ const AmortizationSchedule = () => {
         .select()
         .eq("id", id)
         .single();
-
+      setState({ status: 'loaded' });
       if (error) {
         navigate("/debt-schedule/", { replace: true });
         console.log(error);
@@ -43,6 +47,7 @@ const AmortizationSchedule = () => {
     fetchDebt();
   }, [id, navigate]);
 
+  console.log(state.status)
   const numberFormat = (value) =>
     new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -73,7 +78,7 @@ const AmortizationSchedule = () => {
   //   return datestring;
   // }
 
-    function getFirstDayOfNextMonth(from, adden) {
+  function getFirstDayOfNextMonth(from, adden) {
     const date = new Date(from);
     var d = new Date(date.getFullYear(), date.getMonth() + adden, 1);
 
@@ -100,7 +105,7 @@ const AmortizationSchedule = () => {
 
     return datestring;
   }
-  
+
   /* MATURITY DATE */
 
   if (maturityDate !== null) {
@@ -212,15 +217,15 @@ const AmortizationSchedule = () => {
         cumulativeInterest += interest;
         var principal = payment - interest;
         remainingBalance -= principal;
-        
+
         if (paymentFrequency === "Monthly") {
-          
-          if(i === 0){
+
+          if (i === 0) {
             var currentBalance = loanAmount
-            var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
-          }else{
+            var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
+          } else {
             var currentBalance = schedule[i - 1].remainingBalance
-            var paymentDate = getFirstDayOfNextMonth(startDate,i + 1)
+            var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
           }
           schedule.push({
             [periodLabel]: i + 1,
@@ -233,7 +238,7 @@ const AmortizationSchedule = () => {
             paymentDate: paymentDate,
           });
         } else {
-          
+
           if (i === 0) {
             var currentBalance = loanAmount
             var paymentDate = getFirstDayOfNextMonth(startDate, i + 1)
@@ -266,6 +271,10 @@ const AmortizationSchedule = () => {
     );
 
     //console.log(schedule)
+
+    if (state.status === 'loading') {
+      return <LoadingSpinner />
+    }
 
     return (
       <div className="page viewDebt">
@@ -373,7 +382,7 @@ const AmortizationSchedule = () => {
           payment = principal + interest;
           cumulativeInterest = schedule[i - 1].cumulativeInterest + interest;
           remainingBalance = 0;
-          
+
           schedule.push({
             [periodLabel]: i + 1,
             interest: interest,
@@ -382,7 +391,7 @@ const AmortizationSchedule = () => {
             remainingBalance: remainingBalance,
             payment: payment,
             currentBalance: currentBalance,
-            paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
+            paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
           });
 
           latestEndingBalance = remainingBalance;
@@ -395,7 +404,7 @@ const AmortizationSchedule = () => {
             remainingBalance: remainingBalance,
             payment: payment,
             currentBalance: currentBalance,
-            paymentDate: getFirstDayOfNextMonth(startDate,i + 1),
+            paymentDate: getFirstDayOfNextMonth(startDate, i + 1),
           });
 
           latestEndingBalance = remainingBalance;
@@ -412,6 +421,10 @@ const AmortizationSchedule = () => {
       paymentFrequency,
       createdAt
     );
+
+    if (state.status === 'loading') {
+      return <LoadingSpinner />
+    }
 
     return (
       <div className="page viewDebt">

@@ -8,8 +8,8 @@ import RadioInputs from '../components/RadioInputs'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-
-import moment from 'moment'
+import { useContext } from 'react';
+import { SupabaseContext } from '..';
 
 const CreateDebt = () => {
   const navigate = useNavigate()
@@ -25,6 +25,10 @@ const CreateDebt = () => {
 
   const [formError, setFormError] = useState(null)
 
+  const queryResults = useContext(SupabaseContext)
+
+  const profile_id = queryResults.id
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -37,7 +41,7 @@ const CreateDebt = () => {
 
     const { data, error, status } = await supabase
       .from('debts')
-      .insert([{ description, beginning_balance, category, interest, interest_frequency,maturity_date,budgeted_payment,payment_frequency,minimum_payment }]).single()
+      .insert([{ description, beginning_balance, category, interest, interest_frequency,maturity_date,budgeted_payment,payment_frequency,minimum_payment ,profile_id}]).single()
 
     if (status == 201) {
       console.log(data)

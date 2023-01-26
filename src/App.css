@@ -151,3 +151,12 @@ form button {
   background-color: lightblue;
   width:500px
 }
+
+/* SUPABASE LOGIN AUTH */
+.login-elements{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+

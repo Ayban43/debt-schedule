@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { MultiSelect } from "react-multi-select-component";
 import supabase from "../config/supabaseClient";
 import PaymentPerMonth from './PaymentPerMonth';
+import { SupabaseContext } from '..';
+
 
 const SelectDebt = () => {
+    const queryResults = useContext(SupabaseContext)
     const [options, setOptions] = useState([]);
     const [selected, setSelected] = useState([]);
 
@@ -403,7 +406,7 @@ const SelectDebt = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await supabase.from('debts').select('*')
+                const res = await supabase.from('debts').select('*').eq('profile_id',queryResults.id)
                 setOptions(res.data.map(item => {
                     return {
                         label: item.description,
@@ -452,6 +455,11 @@ const SelectDebt = () => {
             />
             <PaymentPerMonth object={finalArray} />
         </div> 
+
+            
+
+            
+        
     );
 };
 
