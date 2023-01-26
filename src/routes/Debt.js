@@ -91,7 +91,7 @@ const Debt = () => {
                                         <td>{info.payment_frequency}</td>
                                         <td>{numberFormat(info.minimum_payment)}</td>
                                         <td>
-                                            <Link to={"/debt-schedule/" + info.id}>
+                                            <Link to={"/" + info.id}>
                                                 <VscTable />
                                             </Link>
                                         </td>
