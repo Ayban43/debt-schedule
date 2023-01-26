@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/debt-schedule/static/css/main.cb000275.css",
-    "main.js": "/debt-schedule/static/js/main.9de20272.js",
+    "main.js": "/debt-schedule/static/js/main.6bd37956.js",
     "index.html": "/debt-schedule/index.html",
     "main.cb000275.css.map": "/debt-schedule/static/css/main.cb000275.css.map",
-    "main.9de20272.js.map": "/debt-schedule/static/js/main.9de20272.js.map"
+    "main.6bd37956.js.map": "/debt-schedule/static/js/main.6bd37956.js.map"
   },
   "entrypoints": [
     "static/css/main.cb000275.css",
-    "static/js/main.9de20272.js"
+    "static/js/main.6bd37956.js"
   ]
 }
