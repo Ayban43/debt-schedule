@@ -3,6 +3,10 @@ import { MultiSelect } from "react-multi-select-component";
 import supabase from "../config/supabaseClient";
 import PaymentPerMonth from './PaymentPerMonth';
 import { SupabaseContext } from '..';
+import ".."
+import "./SelectDebt.css"
+import ThisMonthsPayment from './ThisMonthsPayment';
+import PieChartInterestPrincipal from './PieChartInterestPrincipal';
 
 
 const SelectDebt = () => {
@@ -19,7 +23,7 @@ const SelectDebt = () => {
     const [monthlyPayment, setMonthlyPayment] = useState("");
     const [paymentFrequency, setPaymentFrequency] = useState("");
     const [interestFrequency, setInterestFrequncy] = useState("");
-    const [description, setDescription] = useState("");
+    const [title, setTitle] = useState("");
 
     const [amortizationData, setAmortizationData] = useState([]);
 
@@ -77,12 +81,12 @@ const SelectDebt = () => {
                 setDatas(res.data)
                 setCreatedAt(res.data.created_at);
                 setMaturityDate(res.data.maturity_date);
-                setBeginningBalance(res.data.beginning_balance);
+                setBeginningBalance(res.data.current_balance);
                 setInterest(res.data.interest);
                 setMonthlyPayment(res.data.budgeted_payment);
                 setPaymentFrequency(res.data.payment_frequency);
                 setInterestFrequncy(res.data.interest_frequency);
-                setDescription(res.data.description);
+                setTitle(res.data.title);
 
                 let amortData = res.data.map(debt => {
                     if (debt.maturity_date !== null) {
@@ -245,7 +249,7 @@ const SelectDebt = () => {
                             createdAt,
                         );
 
-                        return amortizationSchedule(debt.beginning_balance, debt.interest / 100, getNoOfMonths(debt.created_at, debt.maturity_date), debt.interest_frequency, debt.payment_frequency, debt.created_at);
+                        return amortizationSchedule(debt.current_balance, debt.interest / 100, getNoOfMonths(debt.created_at, debt.maturity_date), debt.interest_frequency, debt.payment_frequency, debt.created_at);
 
                     }
                     /*  Budgeted Payment*/
@@ -390,7 +394,7 @@ const SelectDebt = () => {
                             paymentFrequency
                         );
 
-                        return amortizationSchedule(debt.beginning_balance, debt.interest / 100, debt.budgeted_payment, debt.interest_frequency, debt.payment_frequency, debt.created_at);
+                        return amortizationSchedule(debt.current_balance, debt.interest / 100, debt.budgeted_payment, debt.interest_frequency, debt.payment_frequency, debt.created_at);
 
                     }
                 });
@@ -406,10 +410,10 @@ const SelectDebt = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await supabase.from('debts').select('*').eq('profile_id',queryResults.id)
+                const res = await supabase.from('debts').select('*').eq('profile_id', queryResults.id)
                 setOptions(res.data.map(item => {
                     return {
-                        label: item.description,
+                        label: item.title,
                         value: item.id
                     }
                 }));
@@ -443,23 +447,61 @@ const SelectDebt = () => {
 
     finalArray.sort((a, b) => new Date(a.date) - new Date(b.date));
 
+    let currentDate = new Date();
+
+    // Get the current month and year
+    let currentMonth = currentDate.getMonth() + 1;
+    let currentYear = currentDate.getFullYear();
+    let currentPayment;
+    let totalInterest = 0;
+    let totalPrincipal = 0;
+
+    for (let i = 0; i < finalArray.length; i++) {
+        let paymentDate = new Date(finalArray[i].date);
+        let paymentMonth = paymentDate.getMonth();
+        let paymentYear = paymentDate.getFullYear();
+
+        if (currentMonth === paymentMonth && currentYear === paymentYear) {
+            currentPayment = finalArray[i];
+        }
+
+        totalInterest += finalArray[i].interest;
+        totalPrincipal += finalArray[i].principal;
+    }
+
+    const thisMonthsPayment = currentPayment
+    const totalInterestPrincipal = [{ "name": "Interest", "value": totalInterest }, { "name": "Principal", "value": totalPrincipal }]
 
 
     return (
-        <div>
-            <MultiSelect
-                options={options}
-                value={selected}
-                onChange={handleChange}
-                labelledBy="Select"
-            />
-            <PaymentPerMonth object={finalArray} />
-        </div> 
+        <>
+            <div className="w-full p-10">
+                <MultiSelect
+                    options={options}
+                    value={selected}
+                    onChange={handleChange}
+                    labelledBy="Select"
+                />
+            </div>
+            <hr></hr>
 
-            
+            <div className="grid lg:grid-cols-3 sm:grid-cols-1 pr-10 pl-10 pb-10 gap-5 items-start">
+                <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <ThisMonthsPayment object={thisMonthsPayment} />
+                </div>
+                <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <PieChartInterestPrincipal object={totalInterestPrincipal} />
+                    
+                </div>
 
-            
-        
+                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <PaymentPerMonth object={finalArray} />
+                </div>
+
+            </div>
+        </>
+
+
     );
 };
 

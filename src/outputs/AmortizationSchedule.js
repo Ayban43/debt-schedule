@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { SupabaseContext } from "..";
@@ -15,8 +15,10 @@ const AmortizationSchedule = () => {
   const [monthlyPayment, setMonthlyPayment] = useState("");
   const [paymentFrequency, setPaymentFrequency] = useState("");
   const [interestFrequency, setInterestFrequncy] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setDescription] = useState("");
   const [state, setState] = useState({ status: 'loading' });
+  const [Category, setCategory] = useState("");
+
 
 
 
@@ -29,18 +31,19 @@ const AmortizationSchedule = () => {
         .single();
       setState({ status: 'loaded' });
       if (error) {
-        navigate("/debt-schedule/", { replace: true });
+        navigate("/", { replace: true });
         console.log(error);
       }
       if (data) {
         setCreatedAt(data.created_at);
         setMaturityDate(data.maturity_date);
-        setBeginningBalance(data.beginning_balance);
+        setBeginningBalance(data.current_balance);
         setInterest(data.interest);
         setMonthlyPayment(data.budgeted_payment);
         setPaymentFrequency(data.payment_frequency);
         setInterestFrequncy(data.interest_frequency);
-        setDescription(data.description);
+        setDescription(data.title);
+        setCategory(data.category);
         // console.log(data)
       }
     };
@@ -278,38 +281,40 @@ const AmortizationSchedule = () => {
 
     return (
       <div className="page viewDebt">
-        <div className="tableWrapper">
-          <div className="description">
-            <h4>{description}</h4>
-          </div>
-          <table id="viewDebtTable" border={1} cellPadding={7}>
+        <div className="tableWrapper relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="debts w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+              {title}
+              <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">{Category}</p>
+            </caption>
+            <thead className="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">              <tr>
+              <th scope="col" className="px-6 py-3"></th>
+              <th scope="col" className="px-6 py-3">Payment Date</th>
+              <th scope="col" className="px-6 py-3">Current Balance</th>
+              <th scope="col" className="px-6 py-3">Monthly Payment</th>
+              <th scope="col" className="px-6 py-3">Principal</th>
+              <th scope="col" className="px-6 py-3">Interest</th>
+              <th scope="col" className="px-6 py-3">Ending Balance</th>
+              <th scope="col" className="px-6 py-3">Cumulative Interest</th>
+            </tr>
+            </thead>
             <tbody>
-              <tr>
-                <th>#</th>
-                <th>Payment Date</th>
-                <th>Beginning Balance</th>
-                <th>Monthly Payment</th>
-                <th>Principal</th>
-                <th>Interest</th>
-                <th>Ending Balance</th>
-                <th>Cumulative Interest</th>
-              </tr>
               {schedule.length < 1 ? (
-                <tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={7}>NO Data yet!</td>
                 </tr>
               ) : (
                 schedule.map((info, ind) => {
                   return (
-                    <tr key={ind}>
-                      <td>{ind + 1}</td>
-                      <td>{info.paymentDate}</td>
-                      <td>{numberFormat(info.currentBalance)}</td>
-                      <td>{numberFormat(info.payment)}</td>
-                      <td>{numberFormat(info.principal)}</td>
-                      <td>{numberFormat(info.interest)}</td>
-                      <td>{numberFormat(info.remainingBalance)}</td>
-                      <td>{numberFormat(info.cumulativeInterest)}</td>
+                    <tr className="odd:bg-white even:bg-slate-50 border-b dark:bg-gray-800 dark:border-gray-700" key={ind}>
+                      <td className="px-6 py-4">{ind + 1}</td>
+                      <td className="px-6 py-4">{info.paymentDate}</td>
+                      <td className="px-6 py-4">{numberFormat(info.currentBalance)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.payment)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.principal)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.interest)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.remainingBalance)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.cumulativeInterest)}</td>
                     </tr>
                   );
                 })
@@ -427,39 +432,43 @@ const AmortizationSchedule = () => {
     }
 
     return (
-      <div className="page viewDebt">
-        <div className="tableWrapper">
-          <div className="description">
-            <h4>{description}</h4>
-          </div>
-          <table id="viewDebtTable" border={1} cellPadding={7}>
-            <tbody>
+      <div className="">
+        <div className="tableWrapper relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+              {title}
+              <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">{Category}</p>
+            </caption>
+            <thead className="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th>#</th>
-                <th>Payment Date</th>
-                <th>Beginning Balance</th>
-                <th>Monthly Payment</th>
-                <th>Principal</th>
-                <th>Interest</th>
-                <th>Ending Balance</th>
-                <th>Cumulative Interest</th>
+                <th scope="col" className="px-6 py-3"></th>
+                <th scope="col" className="px-6 py-3">Payment Date</th>
+                <th scope="col" className="px-6 py-3">Current Balance</th>
+                <th scope="col" className="px-6 py-3">Monthly Payment</th>
+                <th scope="col" className="px-6 py-3">Principal</th>
+                <th scope="col" className="px-6 py-3">Interest</th>
+                <th scope="col" className="px-6 py-3">Ending Balance</th>
+                <th scope="col" className="px-6 py-3">Cumulative Interest</th>
               </tr>
+
+            </thead>
+            <tbody>
               {schedule.length < 1 ? (
-                <tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td colSpan={7}>NO Data yet!</td>
                 </tr>
               ) : (
                 schedule.map((info, ind) => {
                   return (
-                    <tr key={ind}>
-                      <td>{ind + 1}</td>
-                      <td>{info.paymentDate}</td>
-                      <td>{numberFormat(info.currentBalance)}</td>
-                      <td>{numberFormat(info.payment)}</td>
-                      <td>{numberFormat(info.principal)}</td>
-                      <td>{numberFormat(info.interest)}</td>
-                      <td>{numberFormat(info.remainingBalance)}</td>
-                      <td>{numberFormat(info.cumulativeInterest)}</td>
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={ind}>
+                      <td className="px-6 py-4">{ind + 1}</td>
+                      <td className="px-6 py-4">{info.paymentDate}</td>
+                      <td className="px-6 py-4">{numberFormat(info.currentBalance)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.payment)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.principal)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.interest)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.remainingBalance)}</td>
+                      <td className="px-6 py-4">{numberFormat(info.cumulativeInterest)}</td>
                     </tr>
                   );
                 })

@@ -20,13 +20,12 @@ const Navbar = () => {
     const [state, setState] = useState({ status: 'loading' });
     const [user, setUser] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-     const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('')
 
 
     async function signOutUser() {
         const { error } = await supabase.auth.signOut()
         navigate("/login")
-        window.location.reload()
     }
 
     // const queryResults = useContext(SupabaseContext);
@@ -89,12 +88,12 @@ const Navbar = () => {
                                     }
                                     onClick={closeMobileMenu}
                                 >
-                                    Debt
+                                    Details
                                 </NavLink>
                             </li>
 
 
-                            {isLoggedIn? (
+                            {isLoggedIn ? (
                                 <>
 
                                     <li className="nav-item">
@@ -116,8 +115,8 @@ const Navbar = () => {
                                             }
                                             onClick={closeMobileMenu}
                                         >
-                                            <GrLogout onClick={() => signOutUser()}/>                                        
-                                            </NavLink>
+                                            <GrLogout onClick={() => signOutUser()} />
+                                        </NavLink>
                                     </li>
 
                                 </>
@@ -136,11 +135,11 @@ const Navbar = () => {
                                 </>
                             )}
 
-                       
-                    </ul>
-                </div>
-            </nav>
-        </IconContext.Provider>
+
+                        </ul>
+                    </div>
+                </nav>
+            </IconContext.Provider>
         </>
     );
 }

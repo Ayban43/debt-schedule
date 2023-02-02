@@ -7,16 +7,23 @@
   font-family: "Open Sans", sans-serif;
 }
 
+
 .dashboard,
 .debt,
 .viewDebt {
   display: flex;
   padding-top: 10px;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
-  background-color: rgb(228, 230, 228);
+  /* background-color: rgb(228, 230, 228); */
   color: #07143F;
+  flex-flow: wrap;
+}
 
+.debt hr {
+  width: 100%;
+  border: none;
+  margin-bottom: 10px;
 }
 
 .page-icon {
@@ -33,6 +40,7 @@
 }
 
 @media screen and (max-width: 960px) {
+
   .dashboard,
   .debt {
     font-size: 2.5rem;
@@ -44,49 +52,25 @@
   }
 }
 
-/* button */
-button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-
-.add_debt_button{
-  display:block;
-}
-
-button:hover {
-  background-color: #54be57; /* Green */
-}
-
- .addDebtButtonWrapper {
-  display:flex;
-  justify-content: end;
-}
+/* input:focus {
+  outline: none;
+} */
 
 /* forms */
 form {
-  background: #fff;
-  padding: 20px;
-  max-width: 480px;
+  /* background: #fff; */
+  padding: 10px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-input:focus{
+input[type="radio"]:focus {
   outline: none;
-  box-shadow: 0 .5px .5px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(71, 157, 238, 0.6);
+  box-shadow: none;
 }
 
 
-form #description,#beginning_balance,#interest ,#budgeted_payment, #maturity_date, #minimum_payment{
+/* form #description,#beginning_balance,#interest ,#budgeted_payment, #maturity_date, #minimum_payment{
   display: block;
   width: 100%;
   padding: 6px;
@@ -94,10 +78,9 @@ form #description,#beginning_balance,#interest ,#budgeted_payment, #maturity_dat
   border: 1px solid rgb(219, 219, 219);
   margin: 10px 0 20px 0;
   border-radius: 5px;
-}
+} */ */
 
-
-
+/* 
 form button {
   background: #4CAF50;
   color: #fff;
@@ -107,16 +90,16 @@ form button {
   font-family: "Open Sans", sans-serif;
   cursor: pointer;
   margin:20px 0 0 0;
-}
+} */
 
-.debt_body{
-  margin-top:30px;
+.debt_body {
+  margin-top: 30px;
   margin-right: 50px;
   margin-left: 50px;
 }
 
 /* drop-down */
-.custom-select {
+/* .custom-select {
   background-color: #ffffff;
   border: 1px solid #cccccc;
   border-radius: 4px;
@@ -127,9 +110,9 @@ form button {
   padding: 8px;
   width: 100%;
   margin-bottom:20px;
-}
+} */
 
-.custom-select:focus {
+/* .custom-select:focus {
   outline: none;
   box-shadow: 0 .5px .5px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(71, 157, 238, 0.6);
 }
@@ -137,11 +120,11 @@ form button {
 .custom-select option {
   background-color: #ffffff;
   color: #555555;
-}
+} */
 
 /* CHARTS */
 
-.recharts-wrapper{
+.recharts-wrapper {
   margin: top 20px;
 }
 
@@ -149,14 +132,21 @@ form button {
 
 .multi-select {
   background-color: lightblue;
-  width:500px
+  width: 500px
 }
 
 /* SUPABASE LOGIN AUTH */
-.login-elements{
-  display:flex;
+.login-elements {
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 80vh;
 }
 
+.right-aligned {
+  text-align: right;
+}
+
+/* .multi-select{
+  width:100% !important;
+} */

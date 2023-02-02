@@ -22,7 +22,7 @@ const Dashboard = () => {
         setState({ status: 'loaded' });
         // value.data.user
         if (value.data?.user) {
-          
+
           // console.log(value.data.user)
           setUser(value.data.user)
         }
@@ -33,24 +33,28 @@ const Dashboard = () => {
 
   async function signOutUser() {
     const { error } = await supabase.auth.signOut()
-    navigate("/debt-schedule/login")
+    navigate("/login")
   }
-  
+
   if (state.status === 'loading') {
     return <LoadingSpinner />
   }
 
-  if(Object.keys(user).length !== 0){
+  if (Object.keys(user).length !== 0) {
     return (
-      <div className="page debt">
-      <SelectDebt />
+      <div className="container-page bg-gradient-to-b from-gray-100 to-gray-300" style={{ minHeight: 'calc(100vh - 80px)' }}>
+        <div className="page debt">
+          <div className="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <SelectDebt />
+          </div>
+          
+        </div>
       </div>
     )
   }
 
   return (
     <NotLoggedInPage />
-
   )
   // return (
   //   <>

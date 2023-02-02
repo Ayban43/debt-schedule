@@ -1,14 +1,6 @@
 import React from 'react'
 
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend
-} from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 // currency formatter
 const formatter = new Intl.NumberFormat("en-US", {
@@ -19,41 +11,43 @@ const formatter = new Intl.NumberFormat("en-US", {
 const PaymentPerMonth = (props) => {
     const { object } = props;
 
-    // console.log(object)
+    console.log(object)
     return (
-        <div>
-            <h3>Total payment & interest per month</h3>
+        <div className="" style={{ width: 400, height: 400, paddingRight: 100 }}>
+            <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>
+            <ResponsiveContainer >
+                <AreaChart
+                    data={object}
+                    margin={{
+                        top: 0,
+                        right: 0,
+                        left: 0,
+                        bottom: 30,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="5 5" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip
+                        formatter={value => formatter.format(value).slice(0, 10)}
+                    />
+                    <Area
+                        type="monotone"
+                        dataKey="payment"
+                        stroke="#07143F"
+                        fill="#07143F"
+                        fillOpacity={0}
+                    />
+                    <Area
+                        type="monotone"
+                        dataKey="interest"
+                        stroke="#ffc658"
+                        fill="#ffc658"
+                        fillOpacity={.7}
 
-            <LineChart
-                width={1100}
-                height={400}
-                data={object}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip
-                    formatter={value => formatter.format(value).slice(0, 10)}
-                />
-                <Legend />
-                <Line
-                    type="monotone"
-                    dataKey="payment"
-                    stroke="#8884d8"
-                    activeDot={{ r: 1 }}
-                />
-                <Line
-                    type="monotone"
-                    dataKey="interest"
-                    stroke="#82ca9d"
-                />
-            </LineChart>
+                    />
+                </AreaChart>
+            </ResponsiveContainer>
         </div>
     )
 }

@@ -10,10 +10,10 @@ const navigate = useNavigate();
     supabase.auth.onAuthStateChange(async (event) => {
         if (event !== "SINGED OUT"){
             // go to success URL
-            navigate("/debt-schedule/")
+            navigate("/")
         }else{
             // go to login page
-            navigate("/debt-schedule/login")
+            navigate("/login")
         }
     })
   return (
@@ -23,7 +23,7 @@ const navigate = useNavigate();
         appearance={{ theme: ThemeSupa}}
         providers={["google"]}
         //redirectTo ={"https://ayban43.github.io/debt-schedule/"}
-        //redirectTo ={"http://localhost:3000/debt-schedule/"}
+        //redirectTo ={"http://localhost:3000/"}
         />
     </div>
   )

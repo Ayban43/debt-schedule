@@ -54,57 +54,57 @@ const Debt = () => {
     }
 
     return (
-        <div className="debt_body">
-
-            <ButtonLink />
-            <div className="tableWrapper">
-                <table className="debts" border={1} cellPadding={7}>
-                    <tbody>
-                        <tr>
-                            <th>Counter</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Beginning Balance</th>
-                            <th>Interest</th>
-                            <th>Interest Frequency</th>
-                            <th>Maturity Date</th>
-                            <th>Budgeted Monthly Payment</th>
-                            <th>Payment Frequency</th>
-                            <th>Min. Monthly Payment</th>
-                            <th>View</th>
-                        </tr>
-                        {debts.length < 1 ?
+        <div className="container-page bg-gradient-to-b from-gray-100 to-gray-300" style={{ minHeight: 'calc(100vh - 80px)' }}>
+            <div className="page debt">
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <ButtonLink />
+                    <table className="debts w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-400 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <td colSpan={10}>NO Data yet!</td>
-                            </tr> :
-                            debts.map((info, ind) => {
-                                return (
-                                    <tr key={ind}>
-                                        <td>{ind + 1}</td>
-                                        <td>{info.category}</td>
-                                        <td>{info.description}</td>
-                                        <td>{numberFormat(info.beginning_balance)}</td>
-                                        <td>{info.interest}%</td>
-                                        <td>{info.interest_frequency}</td>
-                                        <td>{info.maturity_date}</td>
-                                        <td>{numberFormat(info.budgeted_payment)}</td>
-                                        <td>{info.payment_frequency}</td>
-                                        <td>{numberFormat(info.minimum_payment)}</td>
-                                        <td>
-                                            <Link to={"/" + info.id}>
-                                                <VscTable />
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
+                                <th scope="col" className="px-6 py-3"></th>
+                                <th scope="col" className="px-6 py-3">Title</th>
+                                <th scope="col" className="px-6 py-3">Current Balance</th>
+                                <th scope="col" className="px-6 py-3">Interest Rate</th>
+                                <th scope="col" className="px-6 py-3">Compound Frequency</th>
+                                <th scope="col" className="px-6 py-3">Maturity Date</th>
+                                <th scope="col" className="px-6 py-3">Budgeted Monthly Payment</th>
+                                <th scope="col" className="px-6 py-3">Payment Frequency</th>
+                                <th scope="col" className="px-6 py-3">View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {debts.length < 1 ?
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td colSpan={10}>NO Data yet!</td>
+                                </tr> :
+                                debts.map((info, ind) => {
+                                    return (
+
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={ind}>
+                                            <td className="px-6 py-4">{ind + 1}</td>
+                                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{info.title}</td>
+                                            <td className="px-6 py-4">{numberFormat(info.current_balance)}</td>
+                                            <td className="px-6 py-4">{info.interest}%</td>
+                                            <td className="px-6 py-4">{info.interest_frequency}</td>
+                                            <td className="px-6 py-4">{info.maturity_date}</td>
+                                            <td className="px-6 py-4">{numberFormat(info.budgeted_payment)}</td>
+                                            <td className="px-6 py-4">{info.payment_frequency}</td>
+                                            <td className="px-6 py-4">
+                                                <Link to={"/" + info.id}>
+                                                    <VscTable />
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
 
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-
         </div>
     );
 
