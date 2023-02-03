@@ -10,8 +10,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 
 const PaymentPerMonth = (props) => {
     const { object } = props;
-
-    console.log(object)
+    
     return (
         <div className="" style={{ width: 400, height: 400, paddingRight: 100 }}>
             <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>

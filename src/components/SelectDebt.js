@@ -7,6 +7,7 @@ import ".."
 import "./SelectDebt.css"
 import ThisMonthsPayment from './ThisMonthsPayment';
 import PieChartInterestPrincipal from './PieChartInterestPrincipal';
+import ProgressBar from './ProgressBar';
 
 
 const SelectDebt = () => {
@@ -455,6 +456,8 @@ const SelectDebt = () => {
     let currentPayment;
     let totalInterest = 0;
     let totalPrincipal = 0;
+    let totalPaid = 0;
+    let totalUnpaid = 0;
 
     for (let i = 0; i < finalArray.length; i++) {
         let paymentDate = new Date(finalArray[i].date);
@@ -465,13 +468,24 @@ const SelectDebt = () => {
             currentPayment = finalArray[i];
         }
 
+        if (paymentDate <= currentDate) {
+            totalPaid += finalArray[i].payment;
+        } else {
+            totalUnpaid += finalArray[i].payment;
+        }
+
+
         totalInterest += finalArray[i].interest;
         totalPrincipal += finalArray[i].principal;
     }
 
+    let totalPayments = totalPaid + totalUnpaid;
+    let percentPaid = (totalPaid / totalPayments) * 100;
+    let percentUnpaid = (totalUnpaid / totalPayments) * 100;
+
     const thisMonthsPayment = currentPayment
     const totalInterestPrincipal = [{ "name": "Interest", "value": totalInterest }, { "name": "Principal", "value": totalPrincipal }]
-
+    const totalPaidUnpaid = [{ "name": "Paid", "value": totalPaid }, { "name": "Unpaid", "value": totalUnpaid }, { "name": "PercentPaid", "value": percentPaid }, { "name": "PercentUnpaid", "value": percentUnpaid }]
 
     return (
         <>
@@ -486,12 +500,19 @@ const SelectDebt = () => {
             <hr></hr>
 
             <div className="grid lg:grid-cols-3 sm:grid-cols-1 pr-10 pl-10 pb-10 gap-5 items-start">
-                <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                    <ThisMonthsPayment object={thisMonthsPayment} />
+                <div className="flex flex-col gap-3">
+                    <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                        <ThisMonthsPayment object={thisMonthsPayment} />
+
+                    </div>
+                    <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                        <ProgressBar object={totalPaidUnpaid} />
+                    </div>
                 </div>
+
                 <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <PieChartInterestPrincipal object={totalInterestPrincipal} />
-                    
+
                 </div>
 
                 <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">

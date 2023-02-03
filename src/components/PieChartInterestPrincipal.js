@@ -16,11 +16,22 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
+const numberFormat = (value) =>
+new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+}).format(value);
+
 
 const PieChartInterestPrincipal = (props) => {
     const { object } = props;
     const data = object;
 
+    const [{ name: Interest, value: interestValue },
+        { name: Principal, value: principalValue }] = data
+
+
+    console.log(principalValue);
     return (
         <div style={{ width: 400, height: 270, paddingRight: 100, marginBottom: 130 }}>
             <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Debt Breakdown</h5>
@@ -49,7 +60,7 @@ const PieChartInterestPrincipal = (props) => {
                         <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
                     </svg>
                     <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        Total Interest Paid
+                        Total Interest: <span className="text-base font-semibold">{numberFormat(interestValue)}</span>
                     </span>
                 </div>
                 <div className="flex items-center justify-center">
@@ -57,7 +68,7 @@ const PieChartInterestPrincipal = (props) => {
                         <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
                     </svg>
                     <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        Total Principal Paid
+                        Total Principal: <span className="text-base font-semibold">{numberFormat(principalValue)}</span>
                     </span>
                 </div>
             </div>

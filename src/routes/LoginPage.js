@@ -23,7 +23,7 @@ const navigate = useNavigate();
         appearance={{ theme: ThemeSupa}}
         providers={["google"]}
         //redirectTo ={"https://ayban43.github.io/debt-schedule/"}
-        //redirectTo ={"http://localhost:3000/"}
+        // redirectTo ={"http://localhost:3000/"}
         />
     </div>
   )
