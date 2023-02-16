@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
 const COLORS = ['#ffc658', '#00C49F'];
@@ -16,12 +16,6 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-const numberFormat = (value) =>
-new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-}).format(value);
-
 
 const PieChartInterestPrincipal = (props) => {
     const { object } = props;
@@ -31,48 +25,32 @@ const PieChartInterestPrincipal = (props) => {
         { name: Principal, value: principalValue }] = data
 
 
-    console.log(principalValue);
     return (
-        <div style={{ width: 400, height: 270, paddingRight: 100, marginBottom: 130 }}>
+        <div>
             <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Debt Breakdown</h5>
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart width={1} height={1}>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={renderCustomizedLabel}
-                        outerRadius={120}
-                        fill="#8884d8"
+            <div style={{ width: "100%", height: 295 }}>
+
+                <ResponsiveContainer>
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            labelLine={false}
+                            cx="50%"
+                            cy="50%"
+                            label={renderCustomizedLabel}
+                            fill="#8884d8"
                         dataKey="value"
                         fillOpacity={.8}
-                    >
+                        >
                         {data.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
                 </PieChart>
             </ResponsiveContainer>
-            <div className="mt-5">
-                <div className="flex items-center mb-3 justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc658" className="w-6 h-6">
-                        <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
-                    </svg>
-                    <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        Total Interest: <span className="text-base font-semibold">{numberFormat(interestValue)}</span>
-                    </span>
-                </div>
-                <div className="flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#00C49F" className="w-6 h-6">
-                        <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
-                    </svg>
-                    <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-                        Total Principal: <span className="text-base font-semibold">{numberFormat(principalValue)}</span>
-                    </span>
-                </div>
-            </div>
+
         </div>
+        </div >
 
     );
 }

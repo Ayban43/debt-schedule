@@ -16,20 +16,20 @@ const ThisMonthsPayment = (props) => {
     if (payment) {
         return (
             <>
-                <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">This month's payment</h5>
-                <div className="mb-4">
-                    <span className="text-2xl font-semibold">$</span>
-                    <span className="text-4xl font-extrabold tracking-tight">{numberFormat(object?.payment)}</span>
+                <h5 className="mb-3 text-xl font-medium text-gray-500 dark:text-gray-400">This month's payment</h5>
+                <div className="mb-3">
+                    <span className="text-2xl text-gray-700 font-semibold">$</span>
+                    <span className="text-4xl text-gray-700 font-extrabold tracking-tight">{numberFormat(object?.payment)}</span>
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-3">
                     <div className="mb-2 grid grid-cols-1 justify-items-end">
                         <div>
                             <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                                 Principal:
                             </span>
-                            <span className="text-base font-semibold">$</span>
-                            <span className="text-lg font-semibold">{numberFormat(object?.principal)}</span>
+                            <span className="text-base text-gray-700 font-semibold">$</span>
+                            <span className="text-lg text-gray-700 font-semibold">{numberFormat(object?.principal)}</span>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 justify-items-end">
@@ -38,8 +38,8 @@ const ThisMonthsPayment = (props) => {
                             <span className="pr-5 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                                 Interest:
                             </span>
-                            <span className="text-base font-semibold">$</span>
-                            <span className="text-lg font-semibold">{numberFormat(object?.interest)}</span>
+                            <span className="text-base text-gray-700 font-semibold">$</span>
+                            <span className="text-lg text-gray-700 font-semibold">{numberFormat(object?.interest)}</span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ const ThisMonthsPayment = (props) => {
                         <span className="pr-3 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
                             Due on:
                         </span>
-                        <span className="text-lg font-semibold underline">
+                        <span className="text-lg text-gray-700 font-semibold underline">
                             {object?.date}
                         </span>
 

@@ -23,14 +23,9 @@ const CreateDebt = () => {
   const [interest, setInterest] = useState('')
   const [interest_frequency, setInterestFrequency] = useState('')
   const [budgeted_payment, setBudgetedPayment] = useState(null)
-  // const [maturity_date, setMaturityDate] = useState({
-  //   startDate: null,
-  //   endDate: null
-  // })
   const [maturity_date, setMaturityDate] = useState({})
   const [payment_frequency, setPaymentFrequency] = useState('')
   const [mat_date ,setMatDate] = useState({})
-  // const [minimum_payment, setMinimumPayment] = useState(null)
 
   const [formError, setFormError] = useState(null)
 
@@ -82,7 +77,7 @@ const CreateDebt = () => {
 
 
   return (
-    <div className="container-page bg-gradient-to-b from-gray-100 to-gray-300 grid grid-cols-1 justify-items-center shrink-0 pt-5 pb-5" style={{ minHeight: 'calc(100vh - 80px)' }}>
+    <div className="container-page bg-gradient-to-b from-slate-50 to-slate-300 grid grid-cols-1 justify-items-center shrink-0 pt-5 pb-5" style={{ minHeight: 'calc(100vh - 80px)' }}>
       <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           {"Input debt information"}

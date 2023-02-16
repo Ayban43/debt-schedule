@@ -9,6 +9,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import LoadingSpinner from '../components/LoadingSpinner'
 import NotLoggedInPage from './NotLoggedInPage'
 import supabase from '../config/supabaseClient'
+import MainPage from '../notLoggedInRoutes/MainPage'
 
 const Dashboard = () => {
 
@@ -42,19 +43,16 @@ const Dashboard = () => {
 
   if (Object.keys(user).length !== 0) {
     return (
-      <div className="container-page bg-gradient-to-b from-gray-100 to-gray-300" style={{ minHeight: 'calc(100vh - 80px)' }}>
+      <div className="grid justify-center container-page bg-gradient-to-b from-slate-50 to-slate-300 p-5">
         <div className="page debt">
-          <div className="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <SelectDebt />
-          </div>
-          
         </div>
       </div>
     )
   }
 
   return (
-    <NotLoggedInPage />
+    <MainPage />
   )
   // return (
   //   <>

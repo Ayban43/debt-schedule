@@ -13,8 +13,8 @@ const PaymentPerMonth = (props) => {
     console.log(object)
 
     return (
-        <div className="" style={{height: 400 }}>
-            <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>
+        <div className="" style={{ width: 400, height: 400, paddingRight: 100 }}>
+            <h5 className="mb-3 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>
             <ResponsiveContainer >
                 <AreaChart
                     data={object}
@@ -40,7 +40,7 @@ const PaymentPerMonth = (props) => {
                         strokeWidth={3}
                         fill="#07143F"
                         fillOpacity={.1}
-                        // activeDot={{ stroke: '#white', strokeWidth: 3, r: 1, fill: '#ff5f4a'}} dot={{ stroke: '#44c0ff', strokeWidth: 2, r: 2, fill: 'blue', fillOpacity:.1}}
+                        // activeDot={{ stroke: '#white', strokeWidth: 1, r: 1, fill: '#ff5f4a'}} dot={{ stroke: '#44c0ff', strokeWidth: 1, r: 2, fill: 'blue', fillOpacity:.2}}
                     />
                     <Area
                         type="monotone"

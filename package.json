@@ -9,8 +9,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "dayjs": "^1.11.7",
+    "file-saver": "^2.0.5",
     "flowbite": "^1.6.3",
     "flowbite-datepicker": "^1.2.2",
+    "html-to-image": "^1.11.11",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-currency-format": "^1.1.0",
@@ -25,7 +27,8 @@
     "react-scripts": "5.0.1",
     "react-tailwindcss-datepicker": "^1.4.2",
     "recharts": "^2.3.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "predeploy": "npm run build",

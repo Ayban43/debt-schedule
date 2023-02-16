@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Dashboard from "./routes/Dashboard";
-import Debt from "./routes/Debt";
+import Debt from "./routes/Debt.js";
 import CreateDebt from "./routes/CreateDebt";
 import ViewDebt from "./routes/ViewDebt";
 
@@ -20,6 +20,7 @@ import supabase from "./config/supabaseClient";
 import React, { createContext, useState, useEffect } from 'react';
 import LoadingSpinner from "./components/LoadingSpinner";
 import 'flowbite';
+import MainPage from "./notLoggedInRoutes/MainPage";
 
 export const SupabaseContext = createContext();
 
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard />,
+        // element: <MainPage />,
       },
       {
         path: "/debt",

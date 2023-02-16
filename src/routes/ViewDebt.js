@@ -1,15 +1,14 @@
 import AmortizationSchedule from "../outputs/AmortizationSchedule";
 
 const ViewDebt = () => {
-  return(
-    <div className = "page viewDebt container-page bg-gradient-to-b from-gray-100 to-gray-300" style={{minHeight: 'calc(100vh - 80px)'}}>
-      {/* <MonthlyInterest /> */}
-      {/* <QuarterlyInterest /> */}
-    <AmortizationSchedule />
-    {/* <BudgetedPayment /> */}
-    </div>
+
+  return (
+    <div className="grid justify-center container-page bg-gradient-to-b from-slate-50 to-slate-300 min-w-fit p-5" style={{ minHeight: 'calc(100vh - 80px)' }}>
+        <AmortizationSchedule />
+    </div >
+
   )
 }
-  
+
 
 export default ViewDebt;

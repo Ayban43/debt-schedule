@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext , useRef } from 'react';
 import { MultiSelect } from "react-multi-select-component";
 import supabase from "../config/supabaseClient";
 import PaymentPerMonth from './PaymentPerMonth';
@@ -8,6 +8,9 @@ import "./SelectDebt.css"
 import ThisMonthsPayment from './ThisMonthsPayment';
 import PieChartInterestPrincipal from './PieChartInterestPrincipal';
 import ProgressBar from './ProgressBar';
+import NextMonthsPayment from './NextMonthsPayment';
+import PieChartLegend from './PieChartLegend';
+import * as htmlToImage from 'html-to-image';
 
 
 const SelectDebt = () => {
@@ -27,6 +30,25 @@ const SelectDebt = () => {
     const [title, setTitle] = useState("");
 
     const [amortizationData, setAmortizationData] = useState([]);
+
+    const domEl = useRef(null);
+
+    const downloadImage = async () => {
+
+        const filter = (node: HTMLElement) => {
+            const exclusionClasses = ['remove-me', 'secret-div'];
+            return !exclusionClasses.some((classname) => node.classList?.contains(classname));
+        }
+
+        const dataUrl = await htmlToImage.toPng(domEl.current, { quality: 1, filter: filter });
+
+        // download image
+        const link = document.createElement('a');
+        // link.download = category + '(' + title + ')' + '.png';
+        link.download = 'Dashboard.png';
+        link.href = dataUrl;
+        link.click();
+    };
 
     function getNoOfMonths(from, to) {
         const createdDate = from
@@ -452,20 +474,35 @@ const SelectDebt = () => {
 
     // Get the current month and year
     let currentMonth = currentDate.getMonth() + 1;
+    let nextMonth = currentDate.getMonth() + 2;
     let currentYear = currentDate.getFullYear();
     let currentPayment;
+    let nextPayment;
     let totalInterest = 0;
     let totalPrincipal = 0;
     let totalPaid = 0;
     let totalUnpaid = 0;
 
+
     for (let i = 0; i < finalArray.length; i++) {
         let paymentDate = new Date(finalArray[i].date);
-        let paymentMonth = paymentDate.getMonth();
+        let paymentMonth = paymentDate.getMonth() + 1;
+        let paymentNextMonth = paymentDate.getMonth() + 1;
         let paymentYear = paymentDate.getFullYear();
+        console.log(paymentMonth)
 
         if (currentMonth === paymentMonth && currentYear === paymentYear) {
             currentPayment = finalArray[i];
+
+        }
+
+        if (nextMonth === paymentNextMonth && currentYear === paymentYear) {
+            if (i === finalArray.length) {
+                nextPayment = { payment: 0, interest: 0, principal: 0, date: "paid" }
+            } else {
+                nextPayment = finalArray[i];
+            }
+
         }
 
         if (paymentDate <= currentDate) {
@@ -484,43 +521,52 @@ const SelectDebt = () => {
     let percentUnpaid = (totalUnpaid / totalPayments) * 100;
 
     const thisMonthsPayment = currentPayment
+    const nextMonthsPayment = nextPayment
+
+    console.log(thisMonthsPayment)
     const totalInterestPrincipal = [{ "name": "Interest", "value": totalInterest }, { "name": "Principal", "value": totalPrincipal }]
     const totalPaidUnpaid = [{ "name": "Paid", "value": totalPaid }, { "name": "Unpaid", "value": totalUnpaid }, { "name": "PercentPaid", "value": percentPaid }, { "name": "PercentUnpaid", "value": percentUnpaid }]
 
     return (
-        <>
-            <div className="w-full p-10">
+        <div className="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" id="domEl" ref={domEl}>
+            <div className="w-full p-10 flex justify-between items-center">
                 <MultiSelect
                     options={options}
                     value={selected}
                     onChange={handleChange}
                     labelledBy="Select"
                 />
+                <div className="flex p-2 gap-1 secret-div">
+                    <svg className="hover:cursor-pointer hover:w-[42px] hover:h-[42px]" onClick={downloadImage} width="40px" height="40px" viewBox="-6.4 -6.4 76.80 76.80" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" strokeWidth="0.00064"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g fillRule="evenodd" clipRule="evenodd"> <path d="M5.125.042c-2.801 0-5.072 2.273-5.072 5.074v53.841c0 2.803 2.271 5.073 5.072 5.073h45.775c2.801 0 5.074-2.271 5.074-5.073v-38.604l-18.904-20.311h-31.945z" fill="#49C9A7"></path> <path d="M55.977 20.352v1h-12.799s-6.312-1.26-6.129-6.707c0 0 .208 5.707 6.004 5.707h12.924z" fill="#37BB91"></path> <path d="M37.074 0v14.561c0 1.656 1.104 5.791 6.104 5.791h12.799l-18.903-20.352z" opacity=".5" fill="#ffffff"></path> </g> <path d="M10.119 53.739v-20.904h20.906v20.904h-20.906zm18.799-18.843h-16.691v12.6h16.691v-12.6zm-9.583 8.384l3.909-5.256 1.207 2.123 1.395-.434.984 5.631h-13.082l3.496-3.32 2.091 1.256zm-3.856-3.64c-.91 0-1.649-.688-1.649-1.538 0-.849.739-1.538 1.649-1.538.912 0 1.65.689 1.65 1.538 0 .85-.738 1.538-1.65 1.538z" fillRule="evenodd" clipRule="evenodd" fill="#ffffff"></path> </g></svg>
+                </div>
             </div>
             <hr></hr>
 
-            <div className="grid lg:grid-cols-3 sm:grid-cols-1 pr-10 pl-10 pb-10 gap-5 items-start">
-                <div className="flex flex-col gap-3">
-                    <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className="grid grid-cols-1 lg:grid-cols-4 pr-10 pl-10 pb-5 gap-5 items-start ">
+
+                <div className="flex flex-col gap-3 min-h-[200px]" >
+                    <div className=" bg-white border border-gray-200 rounded-lg shadow p-2 lg:p-4 dark:bg-gray-800 dark:border-gray-700">
                         <ThisMonthsPayment object={thisMonthsPayment} />
-
                     </div>
-                    <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                        <ProgressBar object={totalPaidUnpaid} />
+                    <div className="bg-white border border-gray-200 rounded-lg shadow p-2 lg:p-4 dark:bg-gray-800 dark:border-gray-700">
+                        <NextMonthsPayment object={nextMonthsPayment} />
                     </div>
                 </div>
 
-                <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className=" bg-white border border-gray-200 rounded-lg shadow lg:p-4 dark:bg-gray-800 dark:border-gray-700 min-h-[200px]">
                     <PieChartInterestPrincipal object={totalInterestPrincipal} />
-
+                    <PieChartLegend object={totalInterestPrincipal} />
                 </div>
 
-                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <div className="col-span-2 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700 min-h-[200px]">
                     <PaymentPerMonth object={finalArray} />
                 </div>
-
             </div>
-        </>
+
+            <div className="bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 min-h-[200px] mb-10 ml-10 mr-10">
+                <ProgressBar object={totalPaidUnpaid} />
+            </div>
+        </div>
 
 
     );

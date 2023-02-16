@@ -81,16 +81,23 @@ const Navbar = () => {
                                     Dashboard
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    to="/debt" className={({ isActive }) =>
-                                        "nav-links" + (isActive ? " activated" : "")
-                                    }
-                                    onClick={closeMobileMenu}
-                                >
-                                    Details
-                                </NavLink>
-                            </li>
+
+                            {isLoggedIn ? (
+                                <>
+
+                                    <li className="nav-item">
+                                        <NavLink
+                                            to="/debt" className={({ isActive }) =>
+                                                "nav-links" + (isActive ? " activated" : "")
+                                            }
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Details
+                                        </NavLink>
+                                    </li>
+                                </>
+                            ) : ""}
+
 
 
                             {isLoggedIn ? (
