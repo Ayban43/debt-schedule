@@ -7,18 +7,6 @@
   font-family: "Open Sans", sans-serif;
 }
 
-
-/* .dashboard,
-.debt,
-.viewDebt {
-  display: flex;
-  padding-top: 10px;
-  justify-content: center;
-  color: #07143F;
-  flex-flow: wrap;
-} */
-
-
 .debt hr {
   width: 100%;
   border: none;
@@ -38,26 +26,8 @@
   width: 100%;
 }
 
-/* @media screen and (max-width: 960px) {
 
-  .dashboard,
-  .debt {
-    font-size: 2.5rem;
-  }
-
-  .page-icon {
-    margin-left: 1rem;
-    font-size: 80px;
-  }
-} */
-
-/* input:focus {
-  outline: none;
-} */
-
-/* forms */
 form {
-  /* background: #fff; */
   padding: 10px;
   max-width: 600px;
   margin: 0 auto;
@@ -69,59 +39,12 @@ input[type="radio"]:focus {
 }
 
 
-/* form #description,#beginning_balance,#interest ,#budgeted_payment, #maturity_date, #minimum_payment{
-  display: block;
-  width: 100%;
-  padding: 6px;
-  box-sizing: border-box;
-  border: 1px solid rgb(219, 219, 219);
-  margin: 10px 0 20px 0;
-  border-radius: 5px;
-} */ */
-
-/* 
-form button {
-  background: #4CAF50;
-  color: #fff;
-  border: 0;
-  border-radius: 6px;
-  padding: 10px;
-  font-family: "Open Sans", sans-serif;
-  cursor: pointer;
-  margin:20px 0 0 0;
-} */
-
 .debt_body {
   margin-top: 30px;
   margin-right: 50px;
   margin-left: 50px;
 }
 
-/* drop-down */
-/* .custom-select {
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  color: #555555;
-  font-size: 14px;
-  height: 40px;
-  padding: 8px;
-  width: 100%;
-  margin-bottom:20px;
-} */
-
-/* .custom-select:focus {
-  outline: none;
-  box-shadow: 0 .5px .5px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(71, 157, 238, 0.6);
-}
-
-.custom-select option {
-  background-color: #ffffff;
-  color: #555555;
-} */
-
-/* CHARTS */
 
 .recharts-wrapper {
   margin: top 20px;
@@ -145,7 +68,3 @@ form button {
 .right-aligned {
   text-align: right;
 }
-
-/* .multi-select{
-  width:100% !important;
-} */
