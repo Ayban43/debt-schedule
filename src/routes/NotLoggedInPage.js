@@ -1,10 +1,8 @@
-import { useRouteError } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import "../styles/NotLoggedIn.css"
 
 export default function NotLoggedInPage() {
     const navigate = useNavigate()
-    const error = useRouteError();
     // console.error(error);
 
     return (

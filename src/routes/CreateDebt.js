@@ -10,7 +10,6 @@ import RadioInputs from '../components/RadioInputs'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useContext } from 'react';
 import { SupabaseContext } from '..';
-import 'flowbite-datepicker';
 import { useEffect } from 'react';
 import DatePickerTw from '../components/DatePickerTw';
 
@@ -25,7 +24,7 @@ const CreateDebt = () => {
   const [budgeted_payment, setBudgetedPayment] = useState(null)
   const [maturity_date, setMaturityDate] = useState({})
   const [payment_frequency, setPaymentFrequency] = useState('')
-  const [mat_date ,setMatDate] = useState({})
+  const [mat_date, setMatDate] = useState({})
 
   const [formError, setFormError] = useState(null)
 
@@ -46,17 +45,10 @@ const CreateDebt = () => {
     }
   }, [mat_date]);
 
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    // if (!title || !current_balance) {
-    //   setFormError('Please fill in all the fields correctly.')
-    //   return
-    // }
-
-
 
     const { data, error, status } = await supabase
       .from('debts')
@@ -68,12 +60,11 @@ const CreateDebt = () => {
       navigate('/debt')
     } else {
       console.log(error)
-      console.log(budgeted_payment)
       setFormError('Please fill in all the fields correctly.')
     }
   }
 
-  console.log(maturity_date,' - ',mat_date)
+  console.log(maturity_date, ' - ', mat_date)
 
 
   return (
@@ -204,8 +195,10 @@ const CreateDebt = () => {
                 <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> - Maturity Date:</div>
 
                 <DatePickerTw
+                  primaryColor={"amber"} 
                   useRange={false}
                   asSingle={true}
+                  minDate={new Date()} 
                   value={mat_date}
                   id="maturity_date"
                   onChange={(date) => {
@@ -227,7 +220,7 @@ const CreateDebt = () => {
                   prefix="$"
                   value={budgeted_payment}
                   onValueChange={(value) => setBudgetedPayment(value)}
-                  
+
                 />
               </div>
 

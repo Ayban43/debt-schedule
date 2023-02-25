@@ -31,7 +31,7 @@ const PaymentPerMonth = (props) => {
                     <Tooltip
                         formatter={value => formatter.format(value).slice(0, 10)}
                     />
-                    <Legend verticalAlign="bottom" height={36} />
+                    <Legend verticalAlign='top' height={36} />
 
                     <Area
                         type="monotone"

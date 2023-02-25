@@ -14,7 +14,7 @@ const PaymentPerMonth = (props) => {
 
     return (
         <div className="" style={{ width: 400, height: 400, paddingRight: 100 }}>
-            <h5 className="mb-3 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>
+            <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Graph Life of Debt</h5>
             <ResponsiveContainer >
                 <AreaChart
                     data={object}

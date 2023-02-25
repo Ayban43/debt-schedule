@@ -19,8 +19,8 @@ import LoginPage from "./routes/LoginPage";
 import supabase from "./config/supabaseClient";
 import React, { createContext, useState, useEffect } from 'react';
 import LoadingSpinner from "./components/LoadingSpinner";
-import 'flowbite';
 import MainPage from "./notLoggedInRoutes/MainPage";
+import EditProfile from "./routes/EditProfile";
 
 export const SupabaseContext = createContext();
 
@@ -90,12 +90,16 @@ const router = createBrowserRouter([
         element: <CreateDebt />,
       },
       {
-        path: "/:id",
+        path: "/debt/:id",
         element: <ViewDebt />,
       },
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/edit-profile",
+        element: <EditProfile />,
       },
     ]
   }

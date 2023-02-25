@@ -8,38 +8,37 @@ import logo from "./logo.png"
 import supabase from '../config/supabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { GrLogout } from "react-icons/gr";
-import { useContext } from 'react';
-import { SupabaseContext } from '..';
-
 
 const Navbar = () => {
     const [click, setClick] = useState(false);
     const navigate = useNavigate()
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
-    const [state, setState] = useState({ status: 'loading' });
-    const [user, setUser] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [email, setEmail] = useState('')
-
+    const [showMenuDropDown, setShowMenuDropDown] = useState(false);
 
     async function signOutUser() {
         const { error } = await supabase.auth.signOut()
         navigate("/login")
     }
 
+    const toggleDropdown = () => {
+        setShowMenuDropDown(!showMenuDropDown);
+    };
+
     // const queryResults = useContext(SupabaseContext);
 
     useEffect(() => {
         async function getUserData() {
             await supabase.auth.getUser().then((value => {
-                setState({ status: 'loaded' });
+                //setState({ status: 'loaded' });
                 // value.data.user
                 if (value.data?.user) {
 
                     //console.log(value.data.user)
                     setEmail(value.data.user.email)
-                    setUser(value.data.user)
+                    //setUser(value.data.user)
                     setIsLoggedIn(true);
                 } else {
                     setIsLoggedIn(false);
@@ -103,7 +102,7 @@ const Navbar = () => {
                             {isLoggedIn ? (
                                 <>
 
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <NavLink
                                             className={({ isActive }) =>
                                                 "nav-links" + (isActive ? " " : "")
@@ -111,7 +110,6 @@ const Navbar = () => {
                                             onClick={closeMobileMenu}
                                         >
                                             {email}
-                                            {/* <span onClick={() => signOutUser()}>Logout</span> */}
                                         </NavLink>
                                     </li>
 
@@ -124,7 +122,35 @@ const Navbar = () => {
                                         >
                                             <GrLogout onClick={() => signOutUser()} />
                                         </NavLink>
-                                    </li>
+                                    </li> */}
+
+                                    <div className="pl-4 border-l-2 relative  inline-block items-center md:order-2">
+                                        <button onClick={toggleDropdown} type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                            <span className="sr-only">Open user menu</span>
+                                            <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo"></img>
+                                        </button>
+                                        {showMenuDropDown &&
+
+                                            <div className="z-50 absolute right-0 -left-24 mt-2 w-56 origin-top-right text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                                                <div className="px-4 py-3">
+                                                    {/* <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span> */}
+                                                    <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{email}</span>
+                                                </div>
+                                                <ul className="py-2" aria-labelledby="user-menu-button">
+                                                    <Link to="../edit-profile">
+                                                        <li className="divide-y divide-gray-100 rounded-lg">
+                                                            <span className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit Profile</span>
+                                                        </li>
+                                                    </Link>
+                                                    <li>
+                                                        <span onClick={() => signOutUser()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:cursor-pointer">Sign out</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+
+
+                                    </div>
 
                                 </>
                             ) : (

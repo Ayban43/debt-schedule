@@ -797,6 +797,44 @@ const MainPage = () => {
               </div>
 
               <div className="relative z-0 w-full mb-6 group">
+                <div className=" mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose one:</div>
+                <div className="grid w-full mr-10 items-center mb-2 pl-5">
+                  {/* <div className=" mb-2 text-sm font-medium text-gray-900 dark:text-white"> - Maturity Date:</div> */}
+
+                  <DatePickerTw
+                    primaryColor={"amber"}
+                    useRange={false}
+                    asSingle={true}
+                    minDate={new Date()}
+                    value={mat_date}
+                    id="maturity_date"
+                    onChange={(date) => {
+                      if (date) {
+                        setMatDate(date);
+                      }
+                    }}
+                  />
+
+
+                </div>
+
+                <div className="grid w-full mr-10 items-center pl-5">
+                  {/* <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> - Budgeted Monthly Payment:</div> */}
+                  <CurrencyInput
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:outline-none"
+                    id="budgeted_payment"
+                    decimalsLimit={2}
+                    prefix="$"
+                    value={budgeted_payment}
+                    placeholder="Budgeted Monthly Payment"
+                    onValueChange={(value) => setBudgetedPayment(value)}
+
+                  />
+                </div>
+
+              </div>
+
+              <div className="relative z-0 w-full mb-6 group">
                 <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment Frequency:</div>
                 <div className="grid w-full gap-2 md:grid-cols-2 p-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                   <ul className="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -822,40 +860,7 @@ const MainPage = () => {
                 </div>
               </div>
 
-              <div className="relative z-0 w-full mb-6 group">
-                <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose one:</div>
-                <div className="grid w-full gap-3 md:grid-cols-2 mr-10 items-center mb-2 pl-5">
-                  <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> - Maturity Date:</div>
 
-                  <DatePickerTw
-                    useRange={false}
-                    asSingle={true}
-                    value={mat_date}
-                    id="maturity_date"
-                    onChange={(date) => {
-                      if (date) {
-                        setMatDate(date);
-                      }
-                    }}
-                  />
-
-
-                </div>
-
-                <div className="grid w-full gap-3 md:grid-cols-2 mr-10 items-center pl-5">
-                  <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> - Budgeted Monthly Payment:</div>
-                  <CurrencyInput
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:outline-none"
-                    id="budgeted_payment"
-                    decimalsLimit={2}
-                    prefix="$"
-                    value={budgeted_payment}
-                    onValueChange={(value) => setBudgetedPayment(value)}
-
-                  />
-                </div>
-
-              </div>
               <button onClick={handleSubmit} className="col-span-2 add_debt_button w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create Schedule</button>
 
               {formError && <p className="error">{formError}</p>}

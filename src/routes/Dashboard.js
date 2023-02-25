@@ -1,21 +1,20 @@
 
 // import supabase from '../config/supabaseClient'
-import FetchDebt from '../Query/FetchDebt'
-import PaymentPerMonth from '../components/PaymentPerMonth'
-import Example from '../components/SelectDebt'
 import SelectDebt from '../components/SelectDebt'
 import { useNavigate } from 'react-router-dom'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadingSpinner from '../components/LoadingSpinner'
-import NotLoggedInPage from './NotLoggedInPage'
 import supabase from '../config/supabaseClient'
 import MainPage from '../notLoggedInRoutes/MainPage'
+import AnnouncementBottom from '../components/AnnouncementBottom'
 
 const Dashboard = () => {
 
   const [user, setUser] = useState({})
   const navigate = useNavigate()
   const [state, setState] = useState({ status: 'loading' });
+  const [userEmail, setUserEmail] = useState(null)
+  const [companyName, setCompanyName] = useState(null)
 
   useEffect(() => {
     async function getUserData() {
@@ -23,14 +22,29 @@ const Dashboard = () => {
         setState({ status: 'loaded' });
         // value.data.user
         if (value.data?.user) {
-
-          // console.log(value.data.user)
           setUser(value.data.user)
+          setUserEmail(value.data.user.email)
         }
       }))
     }
     getUserData();
   }, [])
+
+  useEffect(() => {
+
+    async function fetchData() {
+        if (userEmail) {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('company_name')
+                .eq('email', userEmail);
+            if (error) console.log('Error fetching data:', error);
+            else
+            setCompanyName(data[0].company_name)
+        }
+    }
+    fetchData();
+}, [userEmail]);
 
   async function signOutUser() {
     const { error } = await supabase.auth.signOut()
@@ -45,14 +59,19 @@ const Dashboard = () => {
     return (
       <div className="grid justify-center container-page bg-gradient-to-b from-slate-50 to-slate-300 p-5">
         <div className="page debt">
-          <SelectDebt />
+          <SelectDebt 
+          object = {companyName}
+          />
         </div>
       </div>
     )
   }
 
   return (
+    <>
     <MainPage />
+    <AnnouncementBottom />
+    </>
   )
   // return (
   //   <>

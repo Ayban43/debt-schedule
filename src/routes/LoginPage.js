@@ -1,5 +1,4 @@
 import React from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { Auth, ThemeSupa} from '@supabase/auth-ui-react'
 import { useNavigate } from 'react-router-dom'
 import supabase from '../config/supabaseClient'
